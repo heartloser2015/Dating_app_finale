@@ -1,0 +1,80 @@
+﻿@page "/payments/"
+@inject HttpClient _client
+@inject IJSRuntime js
+@attribute [Authorize]
+
+
+<h3 class="card-title">New payments</h3>
+<a href="/payments/create" class="btn btn-secondary">
+    <span class="oi oi-plus"></span>
+    Create New Payment
+</a>
+<br />
+<br />
+@if (Payments == null)
+{
+    <div class="alert alert-info">Loading Messsages...</div>
+}
+else
+{
+    <div class="table table-responsive">
+        <table id="paymentTable" class="table">
+        <thead>
+            <tr>
+                <th>Total payment</th>
+                <th>Id</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var payment in Payments)
+            {
+                <tr>
+                    <td>@payment.Payment_total</td>
+                    <td>@payment.Id</td>
+                    <td>
+                        <a href="payments/view/@payment.Id" class="btn btn-primary">
+                            <span class="oi oi-book"></span>
+                        </a>
+                        <a href="/payments/edit/@payment.Id" class="btn btn-warning">
+                            <span class="oi oi-pencil"></span>
+                        </a>
+                        <button class="btn btn-danger" @onclick="@(()=>Delete(payment.Id))">
+                            <span class="oi oi-delete"></span>
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+        </table>
+    </div>
+}
+
+@code {
+    private List<Payment> Payments;
+
+    protected async override Task OnInitializedAsync()
+    {
+        Payments = await _client.GetFromJsonAsync<List<Payment>>($"{Endpoints.PaymentsEndPoint}");
+    }
+
+    async Task Delete(int paymentID)
+    {
+        var payment = Payments.First(q => q.Id == paymentID);
+        var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete {payment.Payment_total}?");
+        if (confirm)
+        {
+            await _client.DeleteAsync($"{Endpoints.PaymentsEndPoint}/{paymentID}");
+            await OnInitializedAsync();
+        }
+    }
+    protected async override Task OnAfterRenderAsync(bool firstRender)
+    {
+        await js.InvokeVoidAsync("AddDataTable", "#paymentTable");
+    }
+
+    public void Dispose()
+    {
+        js.InvokeVoidAsync("DataTableDispose", "#paymentTable");
+    }
+}

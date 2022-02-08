@@ -1,0 +1,80 @@
+﻿@page "/locations/"
+@inject HttpClient _client
+@inject IJSRuntime js
+@attribute [Authorize]
+
+
+<h3 class="card-title">New locations</h3>
+<a href="/locations/create" class="btn btn-secondary">
+    <span class="oi oi-plus"></span>
+    Create New Location
+</a>
+<br />
+<br />
+@if (Locations == null)
+{
+    <div class="alert alert-info">Loading Messsages...</div>
+}
+else
+{
+    <div class="table table-responsive">
+        <table id="locationTable" class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Locations</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var location in Locations)
+            {
+                <tr>
+                    <td>@location.Id</td>
+                    <td>@location.Location_Gps</td>
+                    <td>
+                        <a href="locations/view/@location.Id" class="btn btn-primary">
+                            <span class="oi oi-book"></span>
+                        </a>
+                        <a href="/locations/edit/@location.Id" class="btn btn-warning">
+                            <span class="oi oi-pencil"></span>
+                        </a>
+                        <button class="btn btn-danger" @onclick="@(()=>Delete(location.Id))">
+                            <span class="oi oi-delete"></span>
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>}
+
+@code {
+    private List<Location> Locations;
+
+    protected async override Task OnInitializedAsync()
+    {
+        Locations = await _client.GetFromJsonAsync<List<Location>>($"{Endpoints.LocationsEndPoint}");
+    }
+
+    async Task Delete(int locationID)
+    {
+        var location = Locations.First(q => q.Id == locationID);
+        var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete {location.Location_Gps}?");
+        if (confirm)
+        {
+            await _client.DeleteAsync($"{Endpoints.LocationsEndPoint}/{locationID}");
+            await OnInitializedAsync();
+        }
+    }
+
+    protected async override Task OnAfterRenderAsync(bool firstRender)
+    {
+        await js.InvokeVoidAsync("AddDataTable", "#locationTable");
+    }
+
+    public void Dispose()
+    {
+        js.InvokeVoidAsync("DataTableDispose", "#locationTable");
+    }
+}

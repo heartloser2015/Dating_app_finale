@@ -1,0 +1,33 @@
+﻿
+	<EditForm Model="@match" OnValidSubmit="@OnValidSubmit">
+		<DataAnnotationsValidator />
+		<ValidationSummary />
+
+		<div class="form-group">
+			<label>Match timestamp: </label>
+			<div>
+				<InputDate @bind-Value="@match.match_timestamp"/>
+				<ValidationMessage For="@(()=> @match.match_timestamp)" />
+			</div>
+		</div>
+
+        @if (!Disabled)
+        {
+            <button type="submit" class="btn btn-success btn-block">
+                @ButtonText
+            </button>
+
+        }
+
+		<Dating_app_final.Client.Components.BackToList Target="matches"/>
+
+	</EditForm>
+
+@code {
+
+	[Parameter] public bool Disabled { get; set; } = false;
+	[Parameter] public Match match{ get; set; }
+	[Parameter] public string ButtonText { get; set; } = "Save";
+	[Parameter] public EventCallback OnValidSubmit { get; set; } 
+
+}

@@ -1,0 +1,23 @@
+﻿@page "/blockedusers/edit/{id:int}"
+@inject HttpClient _client
+@inject NavigationManager _navManager
+<h3>Edit Locations</h3>
+
+<FormComponent ButtonText="Update" OnValidSubmit="EditBlockedUser" blockedUser="blockedUser" />
+
+@code {
+    [Parameter] public int id { get; set; }
+    BlockedUser blockedUser = new BlockedUser();
+
+    protected async override Task OnParametersSetAsync()
+    {
+        blockedUser = await _client.GetFromJsonAsync<BlockedUser>($"{Endpoints.BlockedUsersEndPoint}/{id}");
+    }
+
+    async Task EditBlockedUser()
+    {
+        await _client.PutAsJsonAsync($"{Endpoints.BlockedUsersEndPoint}/{id}", blockedUser);
+        _navManager.NavigateTo("/blockedusers/");
+
+    }
+}

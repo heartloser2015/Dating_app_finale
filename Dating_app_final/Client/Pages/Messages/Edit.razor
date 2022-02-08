@@ -1,0 +1,23 @@
+﻿@page "/messages/edit/{id:int}"
+@inject HttpClient _client
+@inject NavigationManager _navManager
+<h3>Edit Messages</h3>
+
+<FormComponent ButtonText="Update" OnValidSubmit="EditMessage" message="message" />
+
+@code {
+	[Parameter] public int id { get; set; }
+    Message message = new Message();
+
+    protected async override Task OnParametersSetAsync()
+    {
+        message = await _client.GetFromJsonAsync<Message>($"{Endpoints.MessagesEndPoint}/{id}");
+    }
+
+    async Task EditMessage()
+    {
+        await _client.PutAsJsonAsync($"{Endpoints.MessagesEndPoint}/{id}", message);
+        _navManager.NavigateTo("/messages/");
+
+    }
+}

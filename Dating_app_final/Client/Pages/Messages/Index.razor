@@ -1,0 +1,88 @@
+﻿@page "/messages/"
+@inject HttpClient _client
+@inject IJSRuntime js
+@attribute [Authorize]
+@implements IDisposable
+
+
+<h3 class="card-title">New messages</h3>
+<a href="/messages/create" class="btn btn-secondary">
+    <span class="oi oi-plus"></span>
+    Create New Message
+</a>
+<br />
+<br />
+@if (Messages == null)
+{
+    <div class="alert alert-info">Loading Messsages...</div>
+}
+else
+{
+    <div class="table table-responsive">
+        <table id="messagesTable" class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>read status</th>
+                <th>Content</th>
+                <th>timestamp</th>
+                <th>Actions</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var message in Messages)
+            {
+            <tr>
+                <td>@message.Id</td>
+                <td>@message.Message_read</td>
+                <td>@message.Message_content</td>
+                <td>@message.Message_timestamp.Date.ToString("dd MMMM yyyy")</td>
+                <td>
+                    <a href="messages/view/@message.Id" class="btn btn-primary">
+                        <span class="oi oi-book"></span>
+                    </a>
+                    <a href="/messages/edit/@message.Id" class="btn btn-warning">
+                        <span class="oi oi-pencil"></span>
+                    </a>
+                    <button class="btn btn-danger" @onclick="@(()=>Delete(message.Id))">
+                        <span class="oi oi-delete"></span>
+                    </button>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+    </div>
+
+}
+
+@code {
+    private List<Message> Messages;
+
+    protected async override Task OnInitializedAsync()
+    {
+        Messages = await _client.GetFromJsonAsync<List<Message>>($"{Endpoints.MessagesEndPoint}");
+    }
+
+    async Task Delete(int messageID)
+    {
+        var message = Messages.First(q => q.Id == messageID);
+        var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete {message.Message_content}?");
+        if (confirm)
+        {
+            await _client.DeleteAsync($"{Endpoints.MessagesEndPoint}/{messageID}");
+            await OnInitializedAsync();
+        }
+    }
+
+    protected async override Task OnAfterRenderAsync(bool firstRender)
+    {
+        await js.InvokeVoidAsync("AddDataTable", "#messagesTable");
+    }
+
+    public void Dispose()
+    {
+        js.InvokeVoidAsync("DataTableDispose", "#messageTable");
+    }
+}

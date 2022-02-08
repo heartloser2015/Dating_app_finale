@@ -1,0 +1,105 @@
+/**
+ * Alex Grigorenko
+ * 1/16/20
+ * /328/dating/styles/styles.css
+ */
+
+button{
+    color: #20377C;
+}
+
+
+#biography{
+    float: right;
+}
+
+
+/*Sets the border around the text and img*/
+fieldset{
+    display: block;
+    margin-left: 2px;
+    margin-right: 2px;
+    padding: 0.35em 0.75em 0.625em;
+    border-radius: 5px;
+    border: 1px solid black;
+
+}
+
+
+/*adjusts the img on homepage*/
+#homepage{
+    height: 600px;
+    width: 50%;
+    float: right;
+    margin-left: 15px;
+    position: relative;
+}
+
+/*Aligns text*/
+#info{
+    text-align: left;
+    font-style: normal;
+    margin-left: 10px;
+}
+
+#mainPage{
+    text-align: center;
+}
+
+#main{
+    padding: 2em;
+}
+
+#note{
+    float: right;
+    width: 200px;
+    height: 150px;
+
+}
+
+/*Text align in navbar and p tags*/
+#navP{
+    position: relative;
+    left:5px;
+    top: 5px;
+}
+
+#next{
+    float: right;
+}
+
+
+.quote{
+    font-style: italic;
+    text-align: left;
+    margin-left: 30px;
+}
+
+/*Summary img*/
+
+#summaryImg{
+    width: 400px;
+    height: 400px;
+}
+
+/*Styles the navbar*/
+.topnav {
+    background-color: lightgrey;
+    overflow: hidden;
+}
+
+/* Style the links inside the navigation bar when they going to be included*/
+.topnav a {
+    float: left;
+    color: black;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+}
+
+/* Change the color of links on hover */
+.topnav a:hover {
+    background-color: #20377C;
+    color: lightgrey;
+}

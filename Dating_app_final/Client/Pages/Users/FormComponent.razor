@@ -1,0 +1,83 @@
+﻿	<EditForm Model="@user" OnValidSubmit="OnValidSubmit">
+		<DataAnnotationsValidator />
+		<ValidationSummary />
+		<div class="form-group">
+			<label>Name: </label>
+			<div>
+				<InputText @bind-Value="@user.username" class="form-control"/>
+				<ValidationMessage For="@(()=> user.username)" />
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label>Email: </label>
+			<div>
+				<InputText @bind-Value="@user.email" class="form-control"/>
+				<ValidationMessage For="@(()=> user.email)" />
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label>Password: </label>
+			<div>
+				<InputText @bind-Value="@user.password" class="form-control"/>
+				<ValidationMessage For="@(()=> user.password)" />
+			</div>
+		</div>
+			<div class="form-group">
+			<label>Gender: </label>
+			<div>
+				<InputText @bind-Value="@user.gender" class="form-control"/>
+				<ValidationMessage For="@(()=> user.gender)" />
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label>Status: </label>
+			<div>
+				<InputText @bind-Value="@user.Status" class="form-control"/>
+				<ValidationMessage For="@(()=> user.Status)" />
+			</div>
+		</div>
+		
+		<div class="form-group">
+			<label>Date of Birth: </label>
+			<div>
+				<InputDate @bind-Value="@user.Birth" class="form-control"/>
+				<ValidationMessage For="@(()=> user.Birth)" />
+			</div>
+		</div>
+		
+		<div class="form-group">
+			<label>Preferred gender: </label>
+			<div>
+				<InputText @bind-Value="@user.GenderP" class="form-control"/>
+				<ValidationMessage For="@(()=> user.GenderP)" />
+			</div>
+		</div>
+		
+		<div class="form-group">
+			<label>Location: </label>
+			<div>
+				<InputText @bind-Value="@user.Location" class="form-control"/>
+				<ValidationMessage For="@(()=> user.Location)" />
+			</div>
+		</div>
+
+        @if (!Disabled)
+        {
+            <button type="submit" class="btn btn-success btn-block">
+                @ButtonText
+            </button>
+
+        }
+		<Dating_app_final.Client.Components.BackToList Target="users"/>
+	</EditForm>
+
+@code {
+	[Parameter] public bool Disabled { get; set; } = false;
+	[Parameter] public User user{ get; set; }
+	[Parameter] public string ButtonText { get; set; } = "Save";
+	[Parameter] public EventCallback OnValidSubmit { get; set; } 
+
+}

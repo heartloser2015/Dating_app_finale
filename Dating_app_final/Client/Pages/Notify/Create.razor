@@ -1,0 +1,23 @@
+﻿@page "/notifies/create"
+@inject HttpClient _client
+@inject NavigationManager _navManager
+
+<h3 class="card-title">Create new Notify</h3>
+<hr />
+<br />
+
+<br />
+
+<FormComponent ButtonText="Create Notify" OnValidSubmit="CreateNotify" notify="notify" />
+
+
+@code {
+	Notify notify = new Notify();
+
+	private async Task CreateNotify()
+	{
+		await _client.PostAsJsonAsync(Endpoints.NotifiesEndPoint, notify);
+		_navManager.NavigateTo("/notifies/");
+	}
+
+}

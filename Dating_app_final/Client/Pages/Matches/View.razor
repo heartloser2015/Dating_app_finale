@@ -1,0 +1,14 @@
+﻿@page "/matches/view/{id:int}"
+@inject HttpClient _client
+@inject NavigationManager _navManager
+<h3>View Message</h3>
+<FormComponent match="match" Disabled="true" />
+@code {
+    [Parameter] public int id { get; set; }
+    Match match = new Match();
+    protected async override Task OnParametersSetAsync()
+    {
+        match = await
+       _client.GetFromJsonAsync<Match>($"{Endpoints.MatchesEndPoint}/{id}");
+    }
+}

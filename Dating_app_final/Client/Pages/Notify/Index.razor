@@ -1,0 +1,81 @@
+﻿@page "/notifies/"
+@inject HttpClient _client
+@inject IJSRuntime js
+@attribute [Authorize]
+
+
+<h3 class="card-title">New notifies</h3>
+<a href="/notifies/create" class="btn btn-secondary">
+    <span class="oi oi-plus"></span>
+    Create New Notify
+</a>
+<br />
+<br />
+@if (Notifies == null)
+{
+    <div class="alert alert-info">Loading Messsages...</div>
+}
+else
+{
+   <div class="table table-responsive">
+        <table id="notifyTable" class="table">
+        <thead>
+            <tr>
+                <th>timestamp</th>
+                <th>Notify id</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var notify in Notifies)
+            {
+                <tr>
+                    <td>@notify.Notify_timestamp</td>
+                    <td>@notify.Id</td>
+                    <td>
+                        <a href="notifies/view/@notify.Id" class="btn btn-primary">
+                            <span class="oi oi-book"></span>
+                        </a>
+                        <a href="/notifies/edit/@notify.Id" class="btn btn-warning">
+                            <span class="oi oi-pencil"></span>
+                        </a>
+                        <button class="btn btn-danger" @onclick="@(()=>Delete(notify.Id))">
+                            <span class="oi oi-delete"></span>
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>}
+
+@code {
+    private List<Notify> Notifies;
+
+    protected async override Task OnInitializedAsync()
+    {
+        Notifies = await _client.GetFromJsonAsync<List<Notify>>($"{Endpoints.NotifiesEndPoint}");
+    }
+
+    async Task Delete(int notifyID)
+    {
+        var notify = Notifies.First(q => q.Id == notifyID);
+        var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete {notify.Notify_timestamp}?");
+        if (confirm)
+        {
+            await _client.DeleteAsync($"{Endpoints.NotifiesEndPoint}/{notifyID}");
+            await OnInitializedAsync();
+        }
+    }
+
+    protected async override Task OnAfterRenderAsync(bool firstRender)
+    {
+        await js.InvokeVoidAsync("AddDataTable", "#notifyTable");
+    }
+
+    public void Dispose()
+    {
+        js.InvokeVoidAsync("DataTableDispose", "#notifyTable");
+    }
+
+}

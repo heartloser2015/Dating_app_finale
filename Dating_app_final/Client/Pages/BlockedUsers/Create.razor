@@ -1,0 +1,22 @@
+﻿@page "/blockedusers/create"
+@inject HttpClient _client
+@inject NavigationManager _navManager
+
+<h3 class="card-title">Create New BlockedUser</h3>
+<hr />
+<br />
+
+<br />
+
+<FormComponent ButtonText="Create BlockedUser" OnValidSubmit="CreateBlockedUser"  blockedUser="blockedUser"/>
+
+@code {
+	BlockedUser blockedUser = new BlockedUser();
+
+	private async Task CreateBlockedUser()
+	{
+		await _client.PostAsJsonAsync(Endpoints.BlockedUsersEndPoint, blockedUser);
+		_navManager.NavigateTo("/blockedusers/");
+	}
+
+}

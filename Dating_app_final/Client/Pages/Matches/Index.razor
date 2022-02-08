@@ -1,0 +1,83 @@
+﻿@page "/matches/"
+@inject HttpClient _client
+@inject IJSRuntime js
+@attribute [Authorize]
+
+
+<h3 class="card-title">New matches</h3>
+<a href="/matches/create" class="btn btn-secondary">
+    <span class="oi oi-plus"></span>
+    Create New Match
+</a>
+<br />
+<br />
+@if (Matches == null)
+{
+    <div class="alert alert-info">Loading Messsages...</div>
+}
+else
+{
+    <div class="table table-responsive">
+        <table id="matchTable" class="table">
+        <thead>
+            <tr>
+                <th>Match's Id'</th>
+                <th>timestamp</th>
+                <th>location's Id'</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var match in Matches)
+            {
+            <tr>
+                <td>@match.Id</td>
+                <td>@match.match_timestamp</td>
+                <td>@match.location</td>
+                <td>
+                    <a href="matches/view/@match.Id" class="btn btn-primary">
+                        <span class="oi oi-book"></span>
+                    </a>
+                    <a href="/matches/edit/@match.Id" class="btn btn-warning">
+                        <span class="oi oi-pencil"></span>
+                    </a>
+                    <button class="btn btn-danger" @onclick="@(()=>Delete(match.Id))">
+                        <span class="oi oi-delete"></span>
+                    </button>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>}
+
+@code {
+    private List<Match> Matches;
+
+    protected async override Task OnInitializedAsync()
+    {
+        Matches = await _client.GetFromJsonAsync<List<Match>>($"{Endpoints.MatchesEndPoint}");
+    }
+
+    async Task Delete(int matchID)
+    {
+        var match = Matches.First(q => q.Id == matchID);
+        var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete {match.match_timestamp}?");
+        if (confirm)
+        {
+            await _client.DeleteAsync($"{Endpoints.MatchesEndPoint}/{matchID}");
+            await OnInitializedAsync();
+        }
+    }
+
+    protected async override Task OnAfterRenderAsync(bool firstRender)
+    {
+        await js.InvokeVoidAsync("AddDataTable", "#matchTable");
+    }
+
+    public void Dispose()
+    {
+        js.InvokeVoidAsync("DataTableDispose", "#matchTable");
+    }
+
+}

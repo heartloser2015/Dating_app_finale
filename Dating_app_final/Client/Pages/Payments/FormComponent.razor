@@ -1,0 +1,28 @@
+﻿	<EditForm Model="@payment" OnValidSubmit="OnValidSubmit">
+		<DataAnnotationsValidator />
+		<ValidationSummary />
+		<div class="form-group">
+			<label>Total payment: </label>
+			<div>
+				<InputNumber @bind-Value="@payment.Payment_total" class="form-control"/>
+				<ValidationMessage For="@(()=> payment.Payment_total)" />
+			</div>
+		</div>
+
+        @if (!Disabled)
+        {
+            <button type="submit" class="btn btn-success btn-block">
+                @ButtonText
+            </button>
+
+        }
+
+		<Dating_app_final.Client.Components.BackToList Target="payments"/>
+	</EditForm>
+
+@code {
+	[Parameter] public bool Disabled { get; set; } = false;
+	[Parameter] public Payment payment{ get; set; }
+	[Parameter] public string ButtonText { get; set; } = "Save";
+	[Parameter] public EventCallback OnValidSubmit { get; set; } 
+}

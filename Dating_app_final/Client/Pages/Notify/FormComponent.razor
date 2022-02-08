@@ -1,0 +1,29 @@
+﻿
+	<EditForm Model="@notify" OnValidSubmit="OnValidSubmit">
+		<DataAnnotationsValidator />
+		<ValidationSummary />
+		<div class="form-group">
+			<label>Timestamp: </label>
+			<div>
+				<InputDate @bind-Value="@notify.Notify_timestamp" class="form-control"/>
+				<ValidationMessage For="@(()=> notify.Notify_timestamp)" />
+			</div>
+		</div>
+        @if (!Disabled)
+        {
+            <button type="submit" class="btn btn-success btn-block">
+                @ButtonText
+            </button>
+
+        }
+
+		<Dating_app_final.Client.Components.BackToList Target="notify"/>
+	</EditForm>
+
+
+@code {
+	[Parameter] public bool Disabled { get; set; } = false;
+	[Parameter] public Notify notify{ get; set; }
+	[Parameter] public string ButtonText { get; set; } = "Save";
+	[Parameter] public EventCallback OnValidSubmit { get; set; } 
+}

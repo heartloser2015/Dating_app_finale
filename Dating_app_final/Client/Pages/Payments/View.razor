@@ -1,0 +1,14 @@
+﻿@page "/payments/view/{id:int}"
+@inject HttpClient _client
+@inject NavigationManager _navManager
+<h3>View Message</h3>
+<FormComponent payment= "payment" Disabled="true" />
+@code {
+    [Parameter] public int id { get; set; }
+    Payment payment = new Payment();
+    protected async override Task OnParametersSetAsync()
+    {
+        payment = await
+       _client.GetFromJsonAsync<Payment>($"{Endpoints.PaymentsEndPoint}/{id}");
+    }
+}

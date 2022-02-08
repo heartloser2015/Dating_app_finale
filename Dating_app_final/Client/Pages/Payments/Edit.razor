@@ -1,0 +1,24 @@
+﻿@page "/payments/edit/{id:int}"
+@inject HttpClient _client
+@inject NavigationManager _navManager
+<h3>Edit user</h3>
+
+<FormComponent ButtonText="Update" OnValidSubmit="EditPayment" payment="payment"/>
+
+@code {
+    [Parameter] public int id { get; set; }
+    Payment payment = new Payment();
+
+	protected async override Task OnParametersSetAsync()
+    {
+        payment = await _client.GetFromJsonAsync<Payment>($"{Endpoints.PaymentsEndPoint}/{id}");
+    }
+
+	async Task EditPayment()
+    {
+        await _client.PutAsJsonAsync($"{Endpoints.PaymentsEndPoint}/{id}", payment);
+        _navManager.NavigateTo("/payments/");
+
+    }
+
+}

@@ -1,0 +1,81 @@
+﻿@page "/blockedusers/"
+@inject HttpClient _client
+@inject IJSRuntime js
+@attribute [Authorize]
+
+
+<h3 class="card-title">New blockedusers</h3>
+<a href="/blockedusers/create" class="btn btn-secondary">
+    <span class="oi oi-plus"></span>
+    Create New BlockedUser
+</a>
+<br />
+<br />
+@if (BlockedUsers == null)
+{
+    <div class="alert alert-info">Loading Messsages...</div>
+}
+else
+{
+    <div class="table table-responsive">
+        <table id="buserTable" class="table">
+        <thead>
+            <tr>
+                <th>Cause</th>
+                <th>Name</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var blockeduser in BlockedUsers)
+            {
+                <tr>
+                    <td>@blockeduser.BUser_Cause</td>
+                    <td>@blockeduser.Id</td>
+                    <td>
+                        <a href="blockedusers/view/@blockeduser.Id" class="btn btn-primary">
+                            <span class="oi oi-book"></span>
+                        </a>
+                        <a href="/blockedusers/edit/@blockeduser.Id" class="btn btn-warning">
+                            <span class="oi oi-pencil"></span>
+                        </a>
+                        <button class="btn btn-danger" @onclick="@(()=>Delete(blockeduser.Id))">
+                            <span class="oi oi-delete"></span>
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>}
+
+@code {
+    private List<BlockedUser> BlockedUsers;
+
+    protected async override Task OnInitializedAsync()
+    {
+        BlockedUsers = await _client.GetFromJsonAsync<List<BlockedUser>>($"{Endpoints.BlockedUsersEndPoint}");
+    }
+
+    async Task Delete(int blockeduserID)
+    {
+        var blockeduser = BlockedUsers.First(q => q.Id == blockeduserID);
+        var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete {blockeduser.BUser_Cause}?");
+        if (confirm)
+        {
+            await _client.DeleteAsync($"{Endpoints.BlockedUsersEndPoint}/{blockeduserID}");
+            await OnInitializedAsync();
+        }
+    }
+
+    protected async override Task OnAfterRenderAsync(bool firstRender)
+    {
+        await js.InvokeVoidAsync("AddDataTable", "#buserTable");
+    }
+
+    public void Dispose()
+    {
+        js.InvokeVoidAsync("DataTableDispose", "#buserTable");
+    }
+
+}
