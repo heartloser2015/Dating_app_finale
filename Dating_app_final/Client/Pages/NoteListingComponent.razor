@@ -14,17 +14,19 @@
         <h2>your message history</h2>
         @if (Notes?.Any() ?? false)
         {
-            <ul>
-                @foreach (var note in Notes)
-                {
-                    <NoteViewComponent Note="@note" OnDeleteNote="@((e) => OnDeleteNote(e, note))"></NoteViewComponent>
-                }
-            </ul>
-        }
-        else
+    <ul>
+        @foreach (var note in Notes)
         {
-            <p>You currently do not have any message.</p>
-        }
+    <NoteViewComponent Note="@note" OnDeleteNote="@((e) => OnDeleteNote(e, note))"></NoteViewComponent>}
+    </ul> }
+else
+{
+    <p>You currently do not have any message.</p>}
+
+        <div> Your Matches list!</div>
+        <div> 1.Mary</div>
+        <div> 2.John</div>
+        <div> 3.Jolene</div>
     </div>
     @code {
 
