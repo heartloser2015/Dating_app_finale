@@ -45,7 +45,7 @@
             {
                 await _client.PostAsJsonAsync(Endpoints.LocationsEndPoint, location);
 
-                _navManager.NavigateTo("/locations/");
+                _navManager.NavigateTo("/locations/create");
             }
 
         }
