@@ -22,8 +22,10 @@ else
         <thead>
             <tr>
                 <th>Match's Id'</th>
+                <th>Name</th>
                 <th>timestamp</th>
                 <th>location's Id'</th>
+                <th>Image</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -32,8 +34,9 @@ else
             {
             <tr>
                 <td>@match.Id</td>
+                <th>@match.name</th>
                 <td>@match.match_timestamp</td>
-                <td>@match.location</td>
+                <td><img style="width:100px;height:100px;" src="@match.image" /></td>
                 <td>
                     <a href="matches/view/@match.Id" class="btn btn-primary">
                         <span class="oi oi-book"></span>

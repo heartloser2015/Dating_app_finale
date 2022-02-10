@@ -17,7 +17,7 @@
     async Task EditLocation()
     {
         await _client.PutAsJsonAsync($"{Endpoints.LocationsEndPoint}/{id}", location);
-        _navManager.NavigateTo("/locations/");
+        _navManager.NavigateTo("/counter/");
 
     }
 }

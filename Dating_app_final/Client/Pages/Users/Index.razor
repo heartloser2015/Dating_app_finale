@@ -29,6 +29,7 @@ else
                 <th>Birth</th>
                 <th>Preferred gender</th>
                 <th>Location</th>
+                <th>Picture</th>
                 
 
             </tr>
@@ -45,6 +46,7 @@ else
                 <td>@user.Birth.ToString("dd MMM yyyy")</td>
                 <td>@user.GenderP</td>
                 <td>@user.Location</td>
+                <td><img style="width:100px;height:100px;" src="@user.image"/></td>
 
                 <td>
                     <a href="users/view/@user.Id" class="btn btn-primary">

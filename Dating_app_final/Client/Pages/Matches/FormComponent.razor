@@ -1,27 +1,41 @@
 ﻿
-	<EditForm Model="@match" OnValidSubmit="@OnValidSubmit">
-		<DataAnnotationsValidator />
-		<ValidationSummary />
+<EditForm Model="@match" OnValidSubmit="@OnValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <div class="form-group">
+        <label>name: </label>
+        <div>
+            <InputText @bind-Value="@match.name" class="form-control" />
+            <ValidationMessage For="@(()=> match.name)" />
+        </div>
+    </div>
 
-		<div class="form-group">
-			<label>Match timestamp: </label>
-			<div>
-				<InputDate @bind-Value="@match.match_timestamp"/>
-				<ValidationMessage For="@(()=> @match.match_timestamp)" />
-			</div>
-		</div>
+    <div class="form-group">
+        <label>Match timestamp: </label>
+        <div>
+            <InputDate @bind-Value="@match.match_timestamp" />
+            <ValidationMessage For="@(()=> @match.match_timestamp)" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label>picture: </label>
+        <div>
+            <InputText @bind-Value="@match.image" class="form-control" />
+            <ValidationMessage For="@(()=> match.image)" />
+        </div>
+    </div>
 
-        @if (!Disabled)
-        {
-            <button type="submit" class="btn btn-success btn-block">
-                @ButtonText
-            </button>
+    @if (!Disabled)
+    {
+        <button type="submit" class="btn btn-success btn-block">
+            @ButtonText
+        </button>
 
-        }
+    }
 
-		<Dating_app_final.Client.Components.BackToList Target="matches"/>
+    <Dating_app_final.Client.Components.BackToList Target="matches" />
 
-	</EditForm>
+</EditForm>
 
 @code {
 

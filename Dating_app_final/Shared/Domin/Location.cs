@@ -11,6 +11,9 @@ namespace Dating_app_final.Shared.Domin
         public int Id { get; set; }
 
         public virtual User User { get; set; }
+        public string name { get; set; }
+
+        public string image { get; set; }
         public string Location_Gps { get; set; }
     }
 }

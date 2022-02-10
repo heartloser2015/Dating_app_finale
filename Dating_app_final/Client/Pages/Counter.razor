@@ -1,16 +1,42 @@
 ﻿@page "/counter"
 
-<h1>Counter</h1>
+<div>
+    
 
-<p>Current count: @currentCount</p>
+    <h1>Discover your love!</h1>
+    <h2>press the like button if u like it !</h2>
 
-<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+    <br><hr><br>
 
-@code {
-    private int currentCount = 0;
+    <BlazorSlickCarousel>
+        <BlazorSlickCarouselContent>
 
-    private void IncrementCount()
-    {
-        currentCount++;
-    }
-}
+            <img style="width:800px;height:500px;" src="https://loremflickr.com/400/400?random=14" alt="">
+            <img style="width:800px;height:500px;" src="https://loremflickr.com/400/400?random=15" alt="">
+            <img style="width:800px;height:500px;" src="https://loremflickr.com/400/400?random=16" alt="">
+            <img style="width:800px;height:500px;" src="https://loremflickr.com/400/400?random=17" alt="">
+
+        </BlazorSlickCarouselContent>
+        <BlazorSlickCarouselLoading>
+            <p>Loading...</p>
+        </BlazorSlickCarouselLoading>
+    </BlazorSlickCarousel>
+    <br><hr><br>
+    <div>
+        <a href="/locations/create" class="btn btn-secondary"></a>
+        
+        Like
+    </div>
+    <div>
+        Information here:
+    </div>
+    <div>
+        Name:Mary
+    </div>
+    <div>
+        Location:Singapore
+    </div>
+    <div>
+        profile pic:https://loremflickr.com/400/400?random=15
+    </div>
+</div>

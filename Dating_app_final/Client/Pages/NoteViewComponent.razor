@@ -1,0 +1,29 @@
+﻿@using Dating_app_final.Shared.Domin
+@if (Note != null)
+{
+    <li class="@ClassName" @onmouseover="@OnMouseOver" @onmouseout="@OnMouseOut">
+        <span>@Note.Message</span>
+        <span>Created: @Note.Created.ToUniversalTime().ToString("ddd d MMM yyyy HH:mm:ss")</span>
+        <button type="submit" @onclick="OnDeleteNote">Delete</button>
+    </li>
+}
+@code {
+
+    [Parameter]
+    public Note Note { get; set; }
+
+    [Parameter]
+    public EventCallback<MouseEventArgs> OnDeleteNote { get; set; }
+
+    public string ClassName { get; set; }
+
+    protected void OnMouseOver(MouseEventArgs mouseEventArgs)
+    {
+        ClassName = "highlight";
+    }
+
+    protected void OnMouseOut(MouseEventArgs mouseEventArgs)
+    {
+        ClassName = string.Empty;
+    }
+}

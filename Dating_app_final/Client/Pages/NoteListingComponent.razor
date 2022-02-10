@@ -1,0 +1,76 @@
+﻿@using Dating_app_final.Shared.Domin
+@using System.Diagnostics 
+@page "/messagess"
+    <div class="col-6">
+        <h2>Send your Message!</h2>
+        <fieldset>
+            <label for="Comment">
+                <textarea id="Comment" cols="50" rows="6" @bind="NewComment" @bind:event="onchange"></textarea>
+            </label>
+        </fieldset>
+        <button type="submit" @onclick="@OnSubmitNote">Submit</button>
+    </div>
+    <div class="col-6">
+        <h2>your message history</h2>
+        @if (Notes?.Any() ?? false)
+        {
+            <ul>
+                @foreach (var note in Notes)
+                {
+                    <NoteViewComponent Note="@note" OnDeleteNote="@((e) => OnDeleteNote(e, note))"></NoteViewComponent>
+                }
+            </ul>
+        }
+        else
+        {
+            <p>You currently do not have any message.</p>
+        }
+    </div>
+    @code {
+
+        public IList<Note> Notes { get; set; }
+
+
+        public string NewComment { get; set; }
+
+        protected override async Task OnInitializedAsync()
+        {
+            Notes = new List<Note>();
+
+            await base.OnInitializedAsync();
+        }
+
+        protected void OnSubmitNote(MouseEventArgs mouseEventArgs)
+        {
+            /*
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
+
+            while (stopwatch.Elapsed.TotalSeconds < 2)
+            {
+
+            }
+            */
+
+            Notes.Add(new Note(NewComment));
+            NewComment = string.Empty;
+        }
+
+        protected async Task OnSubmitNoteAsync(MouseEventArgs mouseEventArgs)
+        {
+            await Task.Delay(new TimeSpan(0, 0, 2));
+
+            Notes.Add(new Note(NewComment));
+            NewComment = string.Empty;
+        }
+
+
+        protected void OnDeleteNote(MouseEventArgs mouseEventArgs, Note note)
+        {
+            if (Notes?.Any(n => n == note) ?? false)
+            {
+                Notes.Remove(Notes.First(n => n == note));
+            }
+        }
+
+    }

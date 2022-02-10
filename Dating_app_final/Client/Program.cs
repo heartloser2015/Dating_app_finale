@@ -19,7 +19,7 @@ namespace Dating_app_final.Client
         {
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("#app");
-
+            builder.Services.AddWMBSC();
             builder.Services.AddHttpClient("Dating_app_final.ServerAPI", (sp, client) => { client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress); client.EnableIntercept(sp); })
                 .AddHttpMessageHandler<BaseAddressAuthorizationMessageHandler>();
 

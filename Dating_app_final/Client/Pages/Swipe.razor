@@ -1,0 +1,46 @@
+﻿@page "/swipe"
+@inject HttpClient _client
+@inject IJSRuntime js
+@attribute [Authorize]
+@inject NavigationManager _navManager
+
+
+
+<p><img style="width:500px;height:500px;" src="@currentuser.image" class="center" /></p>
+
+
+<button @onclick="@CreateLocation">Like</button>
+<button @onclick="@Toggle">Dislike</button>
+
+@code {
+    private User currentuser = new User();
+
+    private List<User> Users;
+
+
+    protected async override Task OnInitializedAsync()
+    {
+        Users = await _client.GetFromJsonAsync<List<User>>($"{Endpoints.UsersEndPoint}");
+        var random = new Random();
+        int index = random.Next(Users.Count);
+        currentuser = Users[index];
+
+
+
+    }
+
+    private bool HideLabel { get; set; } = false;
+    async Task Toggle()
+    {
+        await OnInitializedAsync();
+    }
+    Location location = new Location();
+
+    private async Task CreateLocation()
+    {
+        await _client.PostAsJsonAsync(Endpoints.LocationsEndPoint, location);
+
+        _navManager.NavigateTo("/locations/");
+    }
+
+}

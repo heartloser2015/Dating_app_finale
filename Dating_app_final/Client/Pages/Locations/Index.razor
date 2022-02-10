@@ -4,11 +4,7 @@
 @attribute [Authorize]
 
 
-<h3 class="card-title">New locations</h3>
-<a href="/locations/create" class="btn btn-secondary">
-    <span class="oi oi-plus"></span>
-    Create New Location
-</a>
+
 <br />
 <br />
 @if (Locations == null)
@@ -22,28 +18,26 @@ else
         <thead>
             <tr>
                 <th>Id</th>
+                <th>Name</th>
                 <th>Locations</th>
-                <th>Actions</th>
+                <th>Picture</th>
+                <th>Delete</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var location in Locations)
             {
-                <tr>
-                    <td>@location.Id</td>
-                    <td>@location.Location_Gps</td>
-                    <td>
-                        <a href="locations/view/@location.Id" class="btn btn-primary">
-                            <span class="oi oi-book"></span>
-                        </a>
-                        <a href="/locations/edit/@location.Id" class="btn btn-warning">
-                            <span class="oi oi-pencil"></span>
-                        </a>
-                        <button class="btn btn-danger" @onclick="@(()=>Delete(location.Id))">
-                            <span class="oi oi-delete"></span>
-                        </button>
-                    </td>
-                </tr>
+            <tr>
+                <td>@location.Id</td>
+                <td>@location.name</td>
+                <td>@location.Location_Gps</td>
+                <td><img style="width:100px;height:100px;" src="@location.image" /></td>
+                <td>
+                    <button class="btn btn-danger" @onclick="@(()=>Delete(location.Id))">
+                        <span class="oi oi-delete"></span>
+                    </button>
+                </td>
+            </tr>
             }
         </tbody>
     </table>

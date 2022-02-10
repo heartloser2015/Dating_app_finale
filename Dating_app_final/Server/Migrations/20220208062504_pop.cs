@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Dating_app_final.Server.Migrations
 {
-    public partial class @new : Migration
+    public partial class pop : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -93,6 +93,7 @@ namespace Dating_app_final.Server.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     username = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    image = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     password = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     gender = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Birth = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -240,6 +241,8 @@ namespace Dating_app_final.Server.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<int>(type: "int", nullable: true),
+                    name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    image = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Location_Gps = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -303,7 +306,9 @@ namespace Dating_app_final.Server.Migrations
                     UserId = table.Column<int>(type: "int", nullable: true),
                     unmatch_ID = table.Column<int>(type: "int", nullable: false),
                     locationId = table.Column<int>(type: "int", nullable: true),
-                    match_timestamp = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    match_timestamp = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    image = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    name = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -346,11 +351,11 @@ namespace Dating_app_final.Server.Migrations
 
             migrationBuilder.InsertData(
                 table: "Location",
-                columns: new[] { "Id", "Location_Gps", "UserId" },
+                columns: new[] { "Id", "Location_Gps", "UserId", "image", "name" },
                 values: new object[,]
                 {
-                    { 1, "Black", null },
-                    { 2, "Blue", null }
+                    { 1, "Black", null, null, null },
+                    { 2, "Blue", null, null, null }
                 });
 
             migrationBuilder.InsertData(
@@ -358,8 +363,8 @@ namespace Dating_app_final.Server.Migrations
                 columns: new[] { "Id", "MatchId", "Message_content", "Message_read", "Message_timestamp" },
                 values: new object[,]
                 {
-                    { 1, null, "joeys", "Read", new DateTime(2022, 2, 7, 21, 42, 23, 274, DateTimeKind.Local).AddTicks(5732) },
-                    { 2, null, "joey", "Not Read", new DateTime(2022, 2, 7, 21, 42, 23, 280, DateTimeKind.Local).AddTicks(9721) }
+                    { 1, null, "joeys", "Read", new DateTime(2022, 2, 8, 14, 25, 3, 796, DateTimeKind.Local).AddTicks(7555) },
+                    { 2, null, "joey", "Not Read", new DateTime(2022, 2, 8, 14, 25, 3, 798, DateTimeKind.Local).AddTicks(4560) }
                 });
 
             migrationBuilder.CreateIndex(

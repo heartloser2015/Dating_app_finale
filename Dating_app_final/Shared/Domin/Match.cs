@@ -15,6 +15,12 @@ namespace Dating_app_final.Shared.Domin
         public virtual Location location { get; set; }
         public DateTime match_timestamp { get; set; }
 
+        public string image { get; set; }
+
+        public string name { get; set; }
+
+
+
 
 
 

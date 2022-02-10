@@ -1,0 +1,14 @@
+﻿li {
+    list-style: none;
+    border-bottom: 1px #000 solid;
+    padding: 15px;
+}
+li:first-child {
+    border-top: 1px #000 solid;
+}
+span {
+    display: block;
+}
+.highlight {
+    background: #ccc;
+}

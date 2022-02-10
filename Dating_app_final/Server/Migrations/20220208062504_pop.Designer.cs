@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Dating_app_final.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220207134223_new")]
-    partial class @new
+    [Migration("20220208062504_pop")]
+    partial class pop
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -119,6 +119,12 @@ namespace Dating_app_final.Server.Migrations
                     b.Property<int?>("UserId")
                         .HasColumnType("int");
 
+                    b.Property<string>("image")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("name")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("UserId");
@@ -148,11 +154,17 @@ namespace Dating_app_final.Server.Migrations
                     b.Property<int?>("UserId")
                         .HasColumnType("int");
 
+                    b.Property<string>("image")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int?>("locationId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("match_timestamp")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("name")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("unmatch_ID")
                         .HasColumnType("int");
@@ -197,14 +209,14 @@ namespace Dating_app_final.Server.Migrations
                             Id = 1,
                             Message_content = "joeys",
                             Message_read = "Read",
-                            Message_timestamp = new DateTime(2022, 2, 7, 21, 42, 23, 274, DateTimeKind.Local).AddTicks(5732)
+                            Message_timestamp = new DateTime(2022, 2, 8, 14, 25, 3, 796, DateTimeKind.Local).AddTicks(7555)
                         },
                         new
                         {
                             Id = 2,
                             Message_content = "joey",
                             Message_read = "Not Read",
-                            Message_timestamp = new DateTime(2022, 2, 7, 21, 42, 23, 280, DateTimeKind.Local).AddTicks(9721)
+                            Message_timestamp = new DateTime(2022, 2, 8, 14, 25, 3, 798, DateTimeKind.Local).AddTicks(4560)
                         });
                 });
 
@@ -281,6 +293,9 @@ namespace Dating_app_final.Server.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("gender")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("image")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("password")
