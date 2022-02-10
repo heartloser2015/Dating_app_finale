@@ -3,44 +3,49 @@
 @inject IJSRuntime js
 @attribute [Authorize]
 @inject NavigationManager _navManager
+    <link rel="stylesheet" href="/css/handsome.css">
+    <div id="logo-container">
+        Left to like or Right to change!
+    </div>
+        <div id="logo-container">
+            <img style="width: 500px; height: 500px" src="@currentuser.image " />
+
+
+        </div>
+        <div id="logo-container">
+            <button @onclick="@CreateLocation">Like</button>
+            <button @onclick="@Toggle">Dislike</button>
+        </div>
+
+        @code {
+            private User currentuser = new User();
+
+            private List<User> Users;
+
+
+            protected async override Task OnInitializedAsync()
+            {
+                Users = await _client.GetFromJsonAsync<List<User>>($"{Endpoints.UsersEndPoint}");
+                var random = new Random();
+                int index = random.Next(Users.Count);
+                currentuser = Users[index];
 
 
 
-<p><img style="width:500px;height:500px;" src="@currentuser.image" class="center" /></p>
+            }
 
+            private bool HideLabel { get; set; } = false;
+            async Task Toggle()
+            {
+                await OnInitializedAsync();
+            }
+            Location location = new Location();
 
-<button @onclick="@CreateLocation">Like</button>
-<button @onclick="@Toggle">Dislike</button>
+            private async Task CreateLocation()
+            {
+                await _client.PostAsJsonAsync(Endpoints.LocationsEndPoint, location);
 
-@code {
-    private User currentuser = new User();
+                _navManager.NavigateTo("/locations/");
+            }
 
-    private List<User> Users;
-
-
-    protected async override Task OnInitializedAsync()
-    {
-        Users = await _client.GetFromJsonAsync<List<User>>($"{Endpoints.UsersEndPoint}");
-        var random = new Random();
-        int index = random.Next(Users.Count);
-        currentuser = Users[index];
-
-
-
-    }
-
-    private bool HideLabel { get; set; } = false;
-    async Task Toggle()
-    {
-        await OnInitializedAsync();
-    }
-    Location location = new Location();
-
-    private async Task CreateLocation()
-    {
-        await _client.PostAsJsonAsync(Endpoints.LocationsEndPoint, location);
-
-        _navManager.NavigateTo("/locations/");
-    }
-
-}
+        }
