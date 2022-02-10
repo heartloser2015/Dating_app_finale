@@ -9,12 +9,12 @@ namespace Dating_app_final.Shared.Domin
     {
         public string Message { get; }
 
-        public DateTimeOffset Created { get; }
+        public DateTime Created { get; }
 
         public Note(string message)
         {
             Message = message;
-            Created = DateTimeOffset.UtcNow;
+            Created = DateTime.Now;
         }
     }
 }
