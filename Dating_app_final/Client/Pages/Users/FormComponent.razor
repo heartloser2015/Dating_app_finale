@@ -9,13 +9,7 @@
         </div>
     </div>
 
-    <div class="form-group">
-        <label>picture: </label>
-        <div>
-            <InputText @bind-Value="@user.image" class="form-control" />
-            <ValidationMessage For="@(()=> user.image)" />
-        </div>
-    </div>
+
 
 
     <div class="form-group">
@@ -70,6 +64,13 @@
         <div>
             <InputText @bind-Value="@user.Location" class="form-control" />
             <ValidationMessage For="@(()=> user.Location)" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label>Picture: </label>
+        <div>
+            <InputText @bind-Value="@user.image" class="form-control" />
+            <ValidationMessage For="@(()=> user.image)" />
         </div>
     </div>
 

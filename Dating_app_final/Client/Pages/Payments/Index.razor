@@ -2,6 +2,7 @@
 @inject HttpClient _client
 @inject IJSRuntime js
 @attribute [Authorize]
+    <link rel="stylesheet" href="/css/table.css">
 
 
 <h3 class="card-title">New payments</h3>
@@ -47,6 +48,38 @@ else
             }
         </tbody>
         </table>
+        <table class="content-table">
+            <thead>
+                <tr>
+                    <th>Type</th>
+                    <th>cost</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        Trial
+                    </td>
+                    <td>
+                        $5.00
+                    </td>
+                </tr>
+                <tr>
+                    <td>Monthly</td>
+                    <td>$20.00</td>
+                </tr>
+                <tr>
+                    <td>Yearly</td>
+                    <td>$100.00</td>
+                </tr>
+                <tr>
+                    <td>Lifetime</td>
+                    <td>$999</td>
+                </tr>
+            </tbody>
+
+        </table>
+
     </div>
 }
 
